@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth_block">
+    <h1><i class="emblem"></i> Аварийный доступ</h1>
+    <form method="post" action="/login" novalidate>
+        <div>{{ form.hidden_tag() }}</div>
+
+        <p>
+            {{ form.id1.label }}<br>
+            {{ form.id1() }}
+        </p>
+
+        <p>
+            {{ form.token1.label }}<br>
+            {{ form.token1() }}
+        </p>
+
+        <p>
+            {{ form.id2.label }}<br>
+            {{ form.id2() }}
+        </p>
+
+        <p>
+            {{ form.token2.label }}<br>
+            {{ form.token2() }}
+        </p>
+
+        <p>{{ form.submit() }}</p>
+
+    </form>
+</div>
+{% endblock %}

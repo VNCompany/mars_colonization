@@ -1,7 +1,7 @@
 from flask import Flask, url_for, request, render_template
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, RadioField, SelectField, TextAreaField, BooleanField, SubmitField
+from wtforms import StringField, RadioField, SelectField, TextAreaField, BooleanField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
 
 import os
@@ -36,6 +36,14 @@ class AstronautForm(FlaskForm):
     motivation = TextAreaField("Комментарий")
     ready = BooleanField("Готовы остаться на Марсе?")
     submit = SubmitField("Отправить")
+
+
+class LoginForm(FlaskForm):
+    id1 = StringField("Id астронавта", validators=[DataRequired()])
+    token1 = PasswordField("Пароль астронавта", validators=[DataRequired()])
+    id2 = StringField("Id капитана", validators=[DataRequired()])
+    token2 = PasswordField("Пароль капитана", validators=[DataRequired()])
+    submit = SubmitField("Доступ")
 
 
 @app.route("/<title_value>")
@@ -104,6 +112,17 @@ def auto_answer():
     else:
         return render_template("form_1.html", title="Анкета", form=form,
                                spec_link=url_for('static', filename="css/form_style.css"))
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        return "OK"
+    else:
+        return render_template("login.html", title="Аварийный доступ",
+                               spec_link=url_for('static', filename="css/login.css"),
+                               form=form)
 
 
 if __name__ == '__main__':
