@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+    {% if spec_link is defined %}
+    <link rel="stylesheet" href="{{spec_link}}" />
+    {% endif %}
     <title>{{title}}</title>
 </head>
 <body>

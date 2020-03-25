@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form_results">
+    <p>Фамилия: {{form.surname}}</p>
+    <p>Имя: {{form.name}}</p>
+    <p>Образование: {{form.education}}</p>
+    <p>Профессия: {{form.profession}}</p>
+    <p>Пол: {{form.sex}}</p>
+    <p>Мотивация: {{form.motivation}}</p>
+    <p>Готовы остаться на марсе? {{form.ready}}</p>
+</div>
+{% endblock %}
