@@ -22,6 +22,27 @@ def training(prof: str):
     return render_template('training.html', title=prof, p=prof_result)
 
 
+@app.route("/list_prof/<ltype>")
+def list_prof(ltype):
+    profs = [
+        "инженер-исследователь",
+        "пилот",
+        "строитель",
+        "экзобиолог",
+        "врач",
+        "инженер по терраформированию",
+        "климатолог",
+        "специалист по радиационной защите",
+        "астрогеолог",
+        "гляциолог",
+        "инженер жизнеобеспечения",
+        "метеоролог",
+        "оператор марсохода"
+    ]
+
+    return render_template('list_prof.html', title=ltype, ltype=ltype, profs=profs)
+
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
