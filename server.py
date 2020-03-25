@@ -135,6 +135,23 @@ def distribution():
     return render_template("distribution.html", title="По каютам", people=li)
 
 
+@app.route("/table/<sex>/<int:age>")
+def cabin_table(sex, age: int):
+    if age < 21:
+        age = url_for('static', filename="img/emblems/little.png")
+        if sex == "male":
+            sex = "lightskyblue"
+        else:
+            sex = "violet"
+    else:
+        age = url_for('static', filename="img/emblems/big.png")
+        if sex == "male":
+            sex = "cornflowerblue"
+        else:
+            sex = "palevioletred"
+    return render_template("cabin_table.html", title="Cabin Table", sex=sex, age=age)
+
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
