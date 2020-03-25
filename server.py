@@ -125,6 +125,16 @@ def login():
                                form=form)
 
 
+@app.route("/distribution")
+def distribution():
+    li = [
+        "Антон Павлов",
+        "Иван Иванов",
+        "Вася Пупкин"
+    ]
+    return render_template("distribution.html", title="По каютам", people=li)
+
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% set prefix = "Каюта № " %}
+{% block content %}
+
+    <div style="font-size: 20px">
+        {% for person in people %}
+            <p style="text-align: center">{{ person }} - {{ prefix }} {{ loop.index }}
+             {% if loop.index == 1 %}
+             - капитан корабля
+             {% endif %}
+            </p>
+        {% endfor %}
+    </div>
+
+{% endblock %}
