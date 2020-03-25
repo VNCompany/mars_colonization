@@ -1,0 +1,9 @@
+body{
+    margin: 0;
+}
+
+nav{
+    background: #eee;
+    padding: 5px 15px;
+    margin: 0 0 10px 0;
+}
