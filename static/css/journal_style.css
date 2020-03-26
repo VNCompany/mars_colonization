@@ -1,0 +1,26 @@
+table{
+    width: 800px;
+    height: 80px;
+    border-spacing: 0;
+}
+
+tr:first-child>th{
+    height: 25px;
+    background: lightgray;
+}
+
+tr:last-child>td{
+    background: peachpuff;
+}
+
+tr:last-child>td:last-child{
+    background: bisque;
+}
+
+td{
+    text-align: center;
+}
+
+.content_block>main>h3:first-child{
+    text-align: center;
+}

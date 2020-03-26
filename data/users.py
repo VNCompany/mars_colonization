@@ -16,3 +16,6 @@ class User(SqlAlchemyBase):
     email = sqlalchemy.Column(sqlalchemy.String, unique=True)
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+
+    def __repr__(self):
+        return "<colonist> " + str(self.id) + " " + self.surname + " " + self.name
