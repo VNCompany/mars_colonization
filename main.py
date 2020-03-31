@@ -1,16 +1,22 @@
-from flask import Flask, url_for, request, render_template
+from flask import Flask, url_for, request, render_template, redirect
+import flask_login
+from flask_login import LoginManager, login_user
 from data import db_session
 import os
 
 from data.users import *
 from data.jobs import *
+from data.departments import *
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, EqualTo
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "yandexlyceum_secret_key"
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
 class RegisterForm(FlaskForm):
@@ -30,12 +36,38 @@ class RegisterForm(FlaskForm):
     submit = SubmitField("Submit")
 
 
+class LoginForm(FlaskForm):
+    login = StringField("Login / email", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    remember_me = BooleanField("Remember me")
+    submit = SubmitField("Log in")
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    session = db_session.create_session()
+    return session.query(User).get(user_id)
+
+
 @app.route("/")
 @app.route("/index")
 def index():
-    session = db_session.create_session()
-    return render_template("journal.html", spec_link=url_for('static', filename="css/journal_style.css"),
-                           actions=session.query(Jobs).all())
+    return "Authenticated: " + str(flask_login.current_user.is_authenticated)
+
+
+@app.route("/login", methods=['POST', 'GET'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        session = db_session.create_session()
+        user = session.query(User).filter(User.email == form.login.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            return redirect("/")
+        return render_template("success.html", color="red", text="Invalid login or password")
+    else:
+        return render_template("login.html", title="Authorization", form=form,
+                               spec_link=url_for('static', filename="css/login_style.css"))
 
 
 @app.route("/register", methods=['POST', 'GET'])
@@ -64,6 +96,6 @@ def register():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
+    # db_session.global_init("C:\\Users\\victor\\Desktop\\db.sqlite")
     db_session.global_init("db/database.sqlite")
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='127.0.0.1', port=5000)

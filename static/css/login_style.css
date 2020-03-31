@@ -1,0 +1,24 @@
+.auth{
+    width: 400px;
+    margin: 0 auto;
+    border: 1px solid;
+    border-radius: 5px;
+    background: antiquewhite;
+    padding: 20px;
+}
+
+.auth > h1{
+    text-align: center;
+}
+
+.auth label:not([for=remember_me]){
+    display: block;
+}
+
+.auth label, input{
+    font-size: 18px;
+}
+
+.auth input[type=text], input[type=submit], input[type=password]{
+    width: 100%;
+}
