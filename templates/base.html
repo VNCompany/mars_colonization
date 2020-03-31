@@ -12,7 +12,11 @@
 <body>
 <header>
     <nav>
-        <h1>Миссия Колонизация Марса</h1>
+        <h1 style="float: left">Миссия Колонизация Марса</h1>
+        {% if current_user.is_authenticated  %}
+            <h3 style="float: right">{{ current_user.name }}</h3>
+        {% endif %}
+        <div style="clear: both"></div>
     </nav>
     <h4>И на Марсе будут яблони цвести!</h4>
 </header>

@@ -1,6 +1,6 @@
 from flask import Flask, url_for, request, render_template, redirect
 import flask_login
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, logout_user, login_required
 from data import db_session
 import os
 
@@ -52,7 +52,9 @@ def load_user(user_id):
 @app.route("/")
 @app.route("/index")
 def index():
-    return "Authenticated: " + str(flask_login.current_user.is_authenticated)
+    return render_template("success.html", title="Главная страница", color="black",
+                           text="Главная страница",
+                           )
 
 
 @app.route("/login", methods=['POST', 'GET'])
@@ -64,7 +66,9 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
-        return render_template("success.html", color="red", text="Invalid login or password")
+        return render_template("login.html", title="Authorization", form=form,
+                               spec_link=url_for('static', filename="css/login_style.css"),
+                               error="Invalid login or password")
     else:
         return render_template("login.html", title="Authorization", form=form,
                                spec_link=url_for('static', filename="css/login_style.css"))

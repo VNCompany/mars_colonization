@@ -20,5 +20,10 @@
             {{ form.submit() }}
         </p>
     </form>
+    {% if error %}
+            <p class="error">
+                {{ error }}
+            </p>
+    {% endif %}
     </div>
 {% endblock %}

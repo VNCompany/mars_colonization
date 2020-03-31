@@ -22,3 +22,12 @@
 .auth input[type=text], input[type=submit], input[type=password]{
     width: 100%;
 }
+
+.error{
+    margin: 10px 20px 5px 20px;
+    padding: 20px;
+    font-size: 18px;
+    color: red;
+    border: 1px solid red;
+    border-radius: 10px;
+}
