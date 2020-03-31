@@ -52,9 +52,10 @@ def load_user(user_id):
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template("success.html", title="Главная страница", color="black",
-                           text="Главная страница",
-                           )
+    session = db_session.create_session()
+    jobs = session.query(Jobs).all()
+    return render_template("journal.html", title="Главная страница",
+                           actions=jobs, spec_link=url_for('static', filename="css/journal_style.css"))
 
 
 @app.route("/login", methods=['POST', 'GET'])
