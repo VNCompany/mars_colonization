@@ -51,7 +51,7 @@ class JobForm(FlaskForm):
     start_date = DateField("Start date", default=datetime.datetime.now)
     end_date = DateField("End date")
     is_finished = BooleanField("Is finished")
-    submit = SubmitField("Add")
+    submit = SubmitField("Ok")
 
 
 @login_manager.user_loader
@@ -70,6 +70,7 @@ def index():
 
 
 @app.route("/job_add", methods=['GET', 'POST'])
+@login_required
 def job_add():
     form = JobForm()
     if form.validate_on_submit():
@@ -88,6 +89,36 @@ def job_add():
         return redirect("/index")
     else:
         return render_template("job_add.html", title="New job", form=form,
+                               spec_link=url_for('static', filename="css/jadd.css"))
+
+
+@app.route("/job_edit/<int:job_id>", methods=['GET', 'POST'])
+@login_required
+def job_edit(job_id: int):
+    form = JobForm()
+    session = db_session.create_session()
+    job = session.query(Jobs).filter(job_id == Jobs.id).first()
+    if form.validate_on_submit():
+        job.team_leader = form.team_leader.data
+        job.job = form.job.data
+        job.work_size = form.work_size.data
+        job.collaborators = form.collaborators.data
+        job.start_date = form.start_date.data
+        job.end_date = form.end_date.data
+        job.is_finished = form.is_finished.data
+        session.commit()
+    else:
+        if job.team_leader != flask_login.current_user.id and flask_login.current_user.id != 1:
+            return render_template("success.html", title="Error", color="red",
+                                   text="You don't have permissions to change this job!")
+        form.team_leader.data = job.team_leader
+        form.job.data = job.job
+        form.work_size.data = job.work_size
+        form.collaborators.data = job.collaborators
+        form.start_date.data = job.start_date
+        form.end_date.data = job.end_date
+        form.is_finished.data = job.is_finished
+        return render_template("job_add.html", title="Edit job", form=form,
                                spec_link=url_for('static', filename="css/jadd.css"))
 
 

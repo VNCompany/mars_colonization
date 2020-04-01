@@ -43,3 +43,7 @@ nav{
     text-decoration: none;
     color: black;
 }
+
+.delete_btn{
+    background: red;
+}
