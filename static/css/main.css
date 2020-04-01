@@ -7,3 +7,39 @@ nav{
     padding: 5px 15px;
     margin: 0 0 10px 0;
 }
+
+.nav-btn{
+    font-family: "Droid Serif", "DejaVu Serif", "STIX", serif;
+    transition: background-color .2s ease, color .2s linear;
+    padding: 5px 25px;
+    display: inline-block;
+    margin: 18px 10px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    text-decoration: none;
+    color: white;
+}
+
+.login_btn{
+    background: cornflowerblue;
+}
+
+.register_btn{
+    background: darkcyan;
+}
+
+.func_btn{
+    background: brown;
+}
+
+.nav-btn:hover{
+    transition: background-color .2s ease, color .2s linear;
+    background: transparent;
+    color: black;
+    border-color: black;
+}
+
+.black_link{
+    text-decoration: none;
+    color: black;
+}

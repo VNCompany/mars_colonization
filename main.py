@@ -108,6 +108,13 @@ def login():
                                spec_link=url_for('static', filename="css/login_style.css"))
 
 
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect("/index")
+
+
 @app.route("/register", methods=['POST', 'GET'])
 def register():
     form = RegisterForm()
