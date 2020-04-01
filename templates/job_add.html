@@ -3,7 +3,7 @@
 {% block content %}
     <div class="jadd">
         <h1>Job</h1>
-        <form method="post" action="/job_add">
+        <form method="post">
             <div>{{ form.csrf_token() }}</div>
             <p>
                 <label>{{ form.team_leader.label }}</label>

@@ -107,6 +107,7 @@ def job_edit(job_id: int):
         job.end_date = form.end_date.data
         job.is_finished = form.is_finished.data
         session.commit()
+        return redirect("/index")
     else:
         if job.team_leader != flask_login.current_user.id and flask_login.current_user.id != 1:
             return render_template("success.html", title="Error", color="red",
@@ -120,6 +121,24 @@ def job_edit(job_id: int):
         form.is_finished.data = job.is_finished
         return render_template("job_add.html", title="Edit job", form=form,
                                spec_link=url_for('static', filename="css/jadd.css"))
+
+
+@app.route("/job_delete/<int:job_id>", methods=['GET', 'POST'])
+@login_required
+def job_delete(job_id: int):
+    session = db_session.create_session()
+    job = session.query(Jobs).filter(job_id == Jobs.id).first()
+
+    if not job:
+        return redirect("/index")
+
+    if job.team_leader != flask_login.current_user.id and flask_login.current_user.id != 1:
+        return render_template("success.html", title="Error", color="red",
+                               text="You don't have permissions to delete this job!")
+    else:
+        session.delete(job)
+        session.commit()
+        return redirect("/index")
 
 
 @app.route("/login", methods=['POST', 'GET'])
