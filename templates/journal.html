@@ -23,6 +23,7 @@
                     <th>Duration</th>
                     <th>List of collaborators</th>
                     <th>Is finished</th>
+                    <th>Actions</th>
                 </tr>
                 <tr>
                     <td>{{ t.job }}</td>
@@ -34,6 +35,12 @@
                             Is finished
                         {% else %}
                             Is not finished
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if current_user.is_authenticated and (t.team_leader == current_user.id or current_user.id == 1) %}
+                            <a href="/job_edit/{{ t.id }}" class="nav-btn edit_btn">Edit</a>
+                            <a href="/job_delete/{{ t.id }}" class="nav-btn delete_btn">Delete</a>
                         {% endif %}
                     </td>
                 </tr>

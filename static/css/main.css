@@ -47,3 +47,7 @@ nav{
 .delete_btn{
     background: red;
 }
+
+.edit_btn{
+    background: darkgreen;
+}
