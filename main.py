@@ -9,7 +9,7 @@ from data.jobs import *
 from data.departments import *
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateField
 from wtforms.validators import DataRequired, EqualTo
 
 app = Flask(__name__)
@@ -43,6 +43,17 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Log in")
 
 
+class JobForm(FlaskForm):
+    team_leader = IntegerField("Team leader id", validators=[DataRequired()])
+    job = StringField("Job")
+    work_size = StringField("Work size")
+    collaborators = StringField("Collaborators")
+    start_date = DateField("Start date", default=datetime.datetime.now)
+    end_date = DateField("End date")
+    is_finished = BooleanField("Is finished")
+    submit = SubmitField("Add")
+
+
 @login_manager.user_loader
 def load_user(user_id):
     session = db_session.create_session()
@@ -56,6 +67,28 @@ def index():
     jobs = session.query(Jobs).all()
     return render_template("journal.html", title="Главная страница",
                            actions=jobs, spec_link=url_for('static', filename="css/journal_style.css"))
+
+
+@app.route("/job_add", methods=['GET', 'POST'])
+def job_add():
+    form = JobForm()
+    if form.validate_on_submit():
+        session = db_session.create_session()
+        job = Jobs(
+            team_leader=form.team_leader.data,
+            job=form.job.data,
+            work_size=form.work_size.data,
+            collaborators=form.collaborators.data,
+            start_date=form.start_date.data,
+            end_date=form.end_date.data,
+            is_finished=form.is_finished.data,
+        )
+        session.add(job)
+        session.commit()
+        return redirect("/index")
+    else:
+        return render_template("job_add.html", title="New job", form=form,
+                               spec_link=url_for('static', filename="css/jadd.css"))
 
 
 @app.route("/login", methods=['POST', 'GET'])

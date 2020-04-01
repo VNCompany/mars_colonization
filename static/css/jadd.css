@@ -1,0 +1,24 @@
+.jadd{
+    width: 400px;
+    margin: 0 auto;
+    border: 1px solid;
+    border-radius: 5px;
+    background: antiquewhite;
+    padding: 20px;
+}
+
+.jadd > h1{
+    text-align: center;
+}
+
+.jadd label:not([for=is_finished]){
+    display: block;
+}
+
+.jadd label, input{
+    font-size: 18px;
+}
+
+.jadd input[type=text], input[type=submit], input[type=password], input[type=date]{
+    width: 100%;
+}
