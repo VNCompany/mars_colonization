@@ -3,6 +3,7 @@ import flask_login
 from flask_login import LoginManager, login_user, logout_user, login_required
 from data import db_session
 import os
+from flask_restful import  Api
 
 from data.users import *
 from data.jobs import *
@@ -12,8 +13,14 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DateField
 from wtforms.validators import DataRequired, EqualTo
 
+import jobs_api
+import users_api
+
+import users_resource
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "yandexlyceum_secret_key"
+api = Api(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -184,6 +191,7 @@ def register():
         session.commit()
         return render_template("success.html", title="Registration",
                                color="green", text="Registration successfully!")
+
     else:
         return render_template("register.html", title="Registration",
                                spec_link=url_for('static', filename="css/register_style.css"),
@@ -193,4 +201,8 @@ def register():
 if __name__ == '__main__':
     # db_session.global_init("C:\\Users\\victor\\Desktop\\db.sqlite")
     db_session.global_init("db/database.sqlite")
+    app.register_blueprint(jobs_api.bp)
+    app.register_blueprint(users_api.bp)
+    api.add_resource(users_resource.UsersListResource, '/api/v2/users')
+    api.add_resource(users_resource.UsersResource, '/api/v2/users/<int:user_id>')
     app.run(host='127.0.0.1', port=5000)
