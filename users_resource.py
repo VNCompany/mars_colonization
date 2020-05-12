@@ -1,5 +1,5 @@
 from data.db_session import create_session
-from flask_restful import Resource, abort, Resource
+from flask_restful import abort, Resource
 from flask import jsonify
 from parse_args import parser
 from data.users import User
@@ -12,7 +12,7 @@ class UsersResource(Resource):
         user = session.query(User).get(user_id)
         return jsonify({'user': user.to_dict(
             only=('surname', 'name', 'age', 'position', 'speciality', 'address',
-                  'email', 'city_from'))})
+                  'email'))})
 
     def put(self, user_id):
         args = parser.parse_args()
@@ -25,8 +25,7 @@ class UsersResource(Resource):
             'position': args['position'],
             'speciality': args['speciality'],
             'address': args['address'],
-            'email': args['email'],
-            'city_from': args['city_from']
+            'email': args['email']
         }
         session.query(User).filter(User.id == user_id).update(user)
         session.commit()
@@ -47,7 +46,7 @@ class UsersListResource(Resource):
         news = session.query(User).all()
         return jsonify({'users': [item.to_dict(
             only=('surname', 'name', 'age', 'position', 'speciality', 'address',
-                  'email', 'city_from')) for item in news]})
+                  'email')) for item in news]})
 
     def post(self):
         args = parser.parse_args()
